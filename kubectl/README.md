@@ -46,6 +46,11 @@ Delete Pods with label `run` **and** without label `app`
 kubectl delete pods -l run,'!app'
 ```
 
+Change Label Selector on a Service to `app=kubia`:
+```
+kubectl set selector service kubia-http app=kubia
+```
+
 More on labels: https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#label
 
 #### Processing Pod information with jq
