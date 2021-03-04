@@ -26,3 +26,20 @@ produces:
 "kubia is running on gke-mjk-1-default-pool-4f910f33-7cwg"
 "kubia-mate is running on gke-mjk-1-default-pool-4f910f33-7cwg"
 ```
+#### Understanding manifest elements of a particular Kubernetes resource type
+Use `explain` command to see the definition of manifest element(s) of a particular Kubernetes resource type:
+```
+kubectl explain pod.spec.nodeName
+```
+produces:
+```
+KIND:     Pod
+VERSION:  v1
+
+FIELD:    nodeName <string>
+
+DESCRIPTION:
+     NodeName is a request to schedule this pod onto a specific node. If it is
+     non-empty, the scheduler simply schedules this pod onto that node, assuming
+     that it fits resource requirements.
+```
