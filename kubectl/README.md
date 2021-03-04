@@ -16,6 +16,31 @@ Count the number of Pods running in the current namespace:
 kubectl get pods -o json | jq '.items | length'
 ```
 
+#### Labels
+Listing labels:
+```
+kubectl get pods --show-labels
+```
+produces:
+```
+NAME         READY   STATUS    RESTARTS   AGE   LABELS
+kubia        1/1     Running   0          93m   run=kubia
+kubia-mate   1/1     Running   0          46m   run=kubia-mate
+kubia-vsc    1/1     Running   0          56s   app=kubia,rel=alpha
+```
+
+Listing selected labels as columns in the output
+```
+kubectl get pods -L run,app,rel
+```
+produces:
+```
+NAME         READY   STATUS    RESTARTS   AGE     RUN          APP     REL
+kubia        1/1     Running   0          101m    kubia
+kubia-mate   1/1     Running   0          54m     kubia-mate
+kubia-vsc    1/1     Running   0          9m21s                kubia   alpha
+```
+
 #### Processing Pod information with jq
 The following commands:
 ```
