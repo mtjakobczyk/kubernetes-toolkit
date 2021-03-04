@@ -15,6 +15,15 @@ Count the number of Pods running in the current namespace:
 ```
 kubectl get pods -o json | jq '.items | length'
 ```
+#### Services
+Render the LoadBalancer IP with port:
+```
+kubectl get service kubia-http -o json  | jq -r '.status.loadBalancer.ingress[0].ip+":" + (.spec.ports[0].port|tostring)'
+```
+produces:
+```
+35.228.232.121:8080
+```
 
 #### Labels
 Listing labels:
