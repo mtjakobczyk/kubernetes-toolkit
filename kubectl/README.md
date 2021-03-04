@@ -35,7 +35,7 @@ produces
 ```
 kubia (luksa/kubia)
 ```
-The `-r` flag stands for raw output and in this way the result string is devoid of brackets.
+The `-r` flag stands for raw output and in this way the result string is devoid of quotation marks.
 
 #### Understanding manifest elements of a particular Kubernetes resource type
 Use `explain` command to see the definition of manifest element(s) of a particular Kubernetes resource type:
