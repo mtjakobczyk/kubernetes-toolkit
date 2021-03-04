@@ -41,6 +41,13 @@ kubia-mate   1/1     Running   0          54m     kubia-mate
 kubia-vsc    1/1     Running   0          9m21s                kubia   alpha
 ```
 
+Delete Pods with label `run` **and** without label `app`
+```
+kubectl delete pods -l run,'!app'
+```
+
+More on labels: https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#label
+
 #### Processing Pod information with jq
 The following commands:
 ```
