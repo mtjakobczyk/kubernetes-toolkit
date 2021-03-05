@@ -28,6 +28,7 @@ kubectl run nginx --image=nginx
 POD_IP=$(kubectl get pod nginx -o json | jq -r ".status.podIP")
 kubectl run busybox --image=busybox --restart=Never --rm -it -- wget -O- $POD_IP
 ```
+BusyBox is a lightweight Linux image used to run standard Linux commands as containers. More info: https://hub.docker.com/_/busybox
 
 #### Services
 Render the LoadBalancer IP with port:
