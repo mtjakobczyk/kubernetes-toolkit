@@ -20,6 +20,15 @@ Count the number of Pods running in the current namespace:
 ```
 kubectl get pods -o json | jq '.items | length'
 ```
+
+Run an NGINX Pod and run a second Pod to query the NGINX for HTML:
+```
+kubectl run nginx --image=nginx
+# Wait for it
+POD_IP=$(kubectl get pod nginx -o json | jq -r ".status.podIP")
+kubectl run busybox --image=busybox --restart=Never --rm -it -- wget -O- $POD_IP
+```
+
 #### Services
 Render the LoadBalancer IP with port:
 ```
