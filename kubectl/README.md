@@ -1,4 +1,4 @@
-###
+### Pods
 
 Running a particular image in a pod:
 ```
@@ -35,7 +35,7 @@ List status of containers in a Pod:
 kubectl get pod nginx -o json | jq -r '.status.containerStatuses'
 ```
 
-Exposing a manually created Pod
+#### Exposing a manually created Pod
 ```
 kubectl run nginx --image=nginx
 # Wait for it
@@ -57,7 +57,34 @@ produces
 meaning that the connvectivity goes as follows:  
 `Internet -> LoadBalancer (port 80) -> NodePort (30059) -> Service Layer -> Pod (port 80) -> Container (port 80)`
 
-#### Services
+#### command vs args
+Container image definition uses two instructions to set the entrypoint command:
+- ENTRYPOINT should be defined when using the container as an executable.
+- CMD should be used as a way of defining default arguments for an ENTRYPOINT command or for executing an ad-hoc command in a container
+https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact
+For example:
+```dockerfile
+FROM debian:buster-slim
+# ... a lot of various Dockerfile instructions ...
+ENTRYPOINT ["/docker-entrypoint.sh"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+will effectively execute on container startup: `/docker-entrypoint.sh nginx -g daemon off;`
+
+When Kubernetes starts a Container, it runs the image's default `Entrypoint` and passes the image's default `Cmd` as arguments.
+It is possible to override their values.
+
+To start a Pod that runs an arbitrary command and arbitrary arguments:
+```
+kubectl run busybox --image=busybox --command -- <cmd> <arg1> ... <argN>
+```
+To add only custom arguments, skip the `--command` clause:
+```
+kubectl run busybox --image=busybox -- <arg1> ... <argN>
+```
+
+### Services
 Render the LoadBalancer IP with port:
 ```
 kubectl get service kubia-http -o json  | jq -r '.status.loadBalancer.ingress[0].ip+":" + (.spec.ports[0].port|tostring)'
