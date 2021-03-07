@@ -39,8 +39,23 @@ Exposing a manually created Pod
 ```
 kubectl run nginx --image=nginx
 # Wait for it
-kubectl expose pod nginx --type=LoadBalancer --name nginx-http
+kubectl expose pod nginx --type=LoadBalancer --name nginx-http --port=80 --target-port=80
+# To verify
+kubectl get svc nginx-http -o json | jq -r '.spec.ports'
 ```
+produces
+```
+[
+  {
+    "nodePort": 30059,
+    "port": 80,
+    "protocol": "TCP",
+    "targetPort": 80
+  }
+]
+```
+meaning that the connvectivity goes as follows:  
+`Internet -> LoadBalancer (port 80) -> NodePort (30059) -> Service Layer -> Pod (port 80) -> Container (port 80)`
 
 #### Services
 Render the LoadBalancer IP with port:
