@@ -83,6 +83,10 @@ To add only custom arguments, skip the `--command` clause:
 ```
 kubectl run busybox --image=busybox -- <arg1> ... <argN>
 ```
+#### executing simple interactive shell on a pod
+```
+kubectl exec -it nginx -- /bin/sh
+```
 
 ### Services
 Render the LoadBalancer IP with port:
