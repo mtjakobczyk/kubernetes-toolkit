@@ -21,7 +21,7 @@ Count the number of Pods running in the current namespace:
 kubectl get pods -o json | jq '.items | length'
 ```
 
-Run an NGINX Pod and run a second Pod to query the NGINX for HTML:
+Run an NGINX Pod and run a second Pod to query the NGINX for HTML on Pod IP:
 ```
 kubectl run nginx --image=nginx
 # Wait for it
@@ -29,6 +29,18 @@ POD_IP=$(kubectl get pod nginx -o json | jq -r ".status.podIP")
 kubectl run busybox --image=busybox --restart=Never --rm -it -- wget -O- $POD_IP
 ```
 BusyBox is a lightweight Linux image used to run standard Linux commands as containers. More info: https://hub.docker.com/_/busybox
+
+List status of containers in a Pod:
+```
+kubectl get pod nginx -o json | jq -r '.status.containerStatuses'
+```
+
+Exposing a manually created Pod
+```
+kubectl run nginx --image=nginx
+# Wait for it
+kubectl expose pod nginx --type=LoadBalancer --name nginx-http
+```
 
 #### Services
 Render the LoadBalancer IP with port:
