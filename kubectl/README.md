@@ -200,7 +200,8 @@ kind: ConfigMap
 ...
 ```
 
-To register all these entries as environment variables on a Pod:
+#### ConfigMap as environment variable
+To register all these entries as *environment variables* on a Pod:
 ```
 spec:
   containers:
@@ -220,4 +221,27 @@ spec:
         configMapKeyRef:
           name: my-config
           key: some
+```
+#### ConfigMap as files
+To get all these entries created as *files* on a Pod:
+```
+spec:
+  containers:
+  - image: nginx
+    name: nginx-3
+    volumeMounts:
+    - name: my-volume
+      mountPath: /etc/config
+  volumes:
+    - name: my-volume
+      configMap:
+        name: my-config
+```
+which will result in:
+```
+# ls -1 /etc/config
+another
+some
+# cat /etc/config/some
+thing
 ```
