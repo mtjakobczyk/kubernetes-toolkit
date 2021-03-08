@@ -184,3 +184,40 @@ DESCRIPTION:
      non-empty, the scheduler simply schedules this pod onto that node, assuming
      that it fits resource requirements.
 ```
+
+### ConfigMaps
+
+Create a ConfigMap providing key-value pairs manually:
+```
+kubectl create cm my-config --from-literal=some=thing --from-literal=another=athing
+```
+produces:
+```
+data:
+  another: athing
+  some: thing
+kind: ConfigMap
+...
+```
+
+To register all these entries as environment variables on a Pod:
+```
+spec:
+  containers:
+  - image: nginx
+    envFrom:
+    - configMapRef:
+        name: my-config
+```
+Alternatively, you can register a selected entry:
+```
+spec:
+  containers:
+  - image: nginx
+    env:
+    - name: SOME
+      valueFrom:
+        configMapKeyRef:
+          name: my-config
+          key: some
+```
