@@ -2,7 +2,7 @@
 
 Running a particular image in a pod:
 ```
-kubectl run --image=luksa/kubia --port=8080
+kubectl run --image=luksa/kubia --port=8080 --restart=Never
 ```
 The `run` command can be use to run a Pod only. Since 1.18 `run` generators are deprecated: https://github.com/kubernetes/kubernetes/pull/68132
 
@@ -121,6 +121,19 @@ NAME         READY   STATUS    RESTARTS   AGE     RUN          APP     REL
 kubia        1/1     Running   0          101m    kubia
 kubia-mate   1/1     Running   0          54m     kubia-mate
 kubia-vsc    1/1     Running   0          9m21s                kubia   alpha
+```
+Labelling a Pod:
+```
+kubectl label pod n1 -l env=acs
+```
+Changing Pod labels (removing env label and setting environment label):
+```
+kubectl label pod n1 -l environment!,
+
+
+Listing Pods with env==dev and team either cheesecake or applepie
+```
+kubectl get pods -l env=dev,team in 
 ```
 
 Delete Pods with label `run` **and** without label `app`
