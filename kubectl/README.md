@@ -126,19 +126,24 @@ Labelling a Pod:
 ```
 kubectl label pod n1 -l env=acs
 ```
-Changing Pod labels (removing env label and setting environment label):
+Removing a label (`some`) and setting new label (`sum`) on all pods:
 ```
-kubectl label pod n1 -l environment!,
+kubectl label pods --all some- sum=thing
+```
 
+Listing pods with no `environment` label and with `env` label set to `dev`:
+```
+kubectl get pods -l '!environment,env=dev'
+```
 
 Listing Pods with env==dev and team either cheesecake or applepie
 ```
-kubectl get pods -l env=dev,team in 
+kubectl get pods -l 'env=dev,team in (man,ojo)'
 ```
 
 Delete Pods with label `run` **and** without label `app`
 ```
-kubectl delete pods -l run,'!app'
+kubectl delete pods -l 'run,!app'
 ```
 
 Change Label Selector on a Service to the new values:
