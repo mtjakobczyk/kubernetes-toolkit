@@ -10,4 +10,15 @@ The basic way to limit the attack surface is to minimize the amount of code or, 
 ### Platform
 
 :information_source: User who has all permissions on Kubernetes API is effectively the root user in the cluser.  
-:point_up: Recommendation: know who can obtain full permissions on KUbernetes API
+:point_up: Recommendation: know who can obtain full permissions on Kubernetes API
+
+Unauthenticated users can call some APIs that provide non-sensitive information about the cluster. These APIs can be used   
+https://kubernetes.io/docs/reference/access-authn-authz/rbac/#discovery-roles
+
+
+
+### Attack Surfaces
+
+- Kubernetes API
+- Kubelet API
+  - mutual authentication between Kubernetes API and Kubelets
