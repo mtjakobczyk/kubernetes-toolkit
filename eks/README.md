@@ -1,23 +1,42 @@
 Dirty hands-on step by step instructions to run EKS:
 
-1. Prepare IAM Policy that allows access to EKS and ECR
-    ```hcl
-    data "aws_iam_policy_document" "EKSFullAccess" {
-      statement {
-        sid = "EKSFullAccess"
-        actions = [
-          "eks:*",
-          "ecr:*"
-        ]
-        resources = [
-          "*"
-        ]
-      }
+1. Create a new customer-managed **IAM Policy** that allows full access to EKS and ECR
+    ```json
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Sid": "EKSFullAccess",
+          "Effect": "Allow",
+          "Action": [
+              "eks:*",
+              "ecr:*"
+          ],
+          "Resource": "*"
+        }
+      ]
     }
-    resource "aws_iam_policy" "EKSFullAccess" {
-      name = "EKSFullAccess"
-      description = "Full access to EKS and ECR resources"
-      path = "/"
-      policy = data.aws_iam_policy_document.EKSFullAccess.json
-    }
+    ```
+    Save the policy document as `eksfa.json` and execute:
+    ```bash
+    aws iam create-policy --policy-name "EKSFullAccess" --policy-document file://eksfa.json
+    ```
+2. Create **IAM Group** and attach to it the relevant IAM policies
+    ```bash
+    GROUP_NAME=BemowoDevOpsSquad
+    aws iam create-group --group-name $GROUP_NAME
+    POLICIES=(
+        'AmazonEC2FullAccess' 
+        'AmazonS3FullAccess' 
+        'AmazonVPCFullAccess' 
+        'AmazonSNSReadOnlyAccess'
+        'AWSCloudFormationFullAccess'
+        'IAMReadOnlyAccess' 
+        'EKSFullAccess'
+    )
+    for policy in "${POLICIES[@]}";
+    do
+        ARN=$(aws iam list-policies --query "Policies[?PolicyName=='$policy'].Arn" --output text)
+        aws iam attach-group-policy --group-name $GROUP_NAME --policy-arn $ARN
+    done
     ```
