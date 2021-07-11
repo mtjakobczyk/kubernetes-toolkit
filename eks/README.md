@@ -89,7 +89,7 @@ Dirty hands-on step by step instructions to run EKS:
 
 #### Allow AWS Services access other services
 
-1. Allow AWS EKS Service access other services using predefined service-linked roles:
+1. Allow AWS EKS Service to manage other AWS services by creating two predefined service-linked roles:
     ```bash
     aws iam create-service-linked-role --aws-service-name eks.amazonaws.com
     aws iam create-service-linked-role --aws-service-name eks-nodegroup.amazonaws.com
