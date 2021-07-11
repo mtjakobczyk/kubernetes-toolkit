@@ -58,6 +58,7 @@ Dirty hands-on step by step instructions to run EKS:
         'AWSCloudFormationFullAccess'
         'IAMReadOnlyAccess' 
         'EKSFullAccess'
+        'ManageOwnAccessKeys'
     )
     for policy in "${POLICIES[@]}";
     do
