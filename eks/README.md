@@ -48,7 +48,7 @@ Dirty hands-on step by step instructions to run EKS:
     do
         aws iam create-user --user-name $user
         aws iam add-user-to-group --group-name $GROUP_NAME --user-name $user
-        TMP_PASS=$(pwgen -Bcns 18 1)
+        TMP_PASS=$(pwgen -Bcnsy 14 1)
         aws iam create-login-profile --user-name $user --password "$TMP_PASS" --password-reset-required
         echo "$user -> $TMP_PASS"
     done
