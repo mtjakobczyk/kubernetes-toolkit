@@ -41,6 +41,7 @@ Dirty hands-on step by step instructions to run EKS:
     done
     ```
 3. Create **IAM Users** and add them to the IAM Group
+    You need to install the `pwgen` utility to run the commands below.
     ```bash
     GROUP_NAME=BemowoDevOpsSquad
     USERS=('devops1' 'devops2')
