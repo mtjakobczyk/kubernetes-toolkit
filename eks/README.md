@@ -86,12 +86,15 @@ Dirty hands-on step by step instructions to run EKS:
     ```bash
     aws iam get-account-password-policy
     ```
+
 #### Allow AWS Services access other services
 
-https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html
-
-1. Cre
+1. Allow AWS EKS Service access other services using predefined service-linked roles:
     ```bash
-    aws iam create-service-linked-role --aws-service-name eks.amazonaws.com --description "Our service-linked role for EKS"
+    aws iam create-service-linked-role --aws-service-name eks.amazonaws.com
+    aws iam create-service-linked-role --aws-service-name eks-nodegroup.amazonaws.com
     ```
-
+    See more:
+    - https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html
+    - https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html
+    - https://docs.aws.amazon.com/eks/latest/userguide/using-service-linked-roles.html
