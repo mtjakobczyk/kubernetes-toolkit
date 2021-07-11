@@ -21,6 +21,31 @@ Dirty hands-on step by step instructions to run EKS:
     ```bash
     aws iam create-policy --policy-name "EKSFullAccess" --policy-document file://eksfa.json
     ```
+2. Create a new customer-managed **IAM Policy** that allows managing own access keys
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "ManageOwnAccessKeys",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:CreateAccessKey",
+                    "iam:DeleteAccessKey",
+                    "iam:GetAccessKeyLastUsed",
+                    "iam:GetUser",
+                    "iam:ListAccessKeys",
+                    "iam:UpdateAccessKey"
+                ],
+                "Resource": "arn:aws:iam::*:user/${aws:username}"
+            }
+        ]
+    }
+    ```
+    Save the policy document as `moak.json` and execute:
+    ```bash
+    aws iam create-policy --policy-name "ManageOwnAccessKeys" --policy-document file://moak.json
+    ```
 2. Create **IAM Group** and attach to it the relevant IAM policies
     ```bash
     GROUP_NAME=BemowoDevOpsSquad
@@ -51,6 +76,7 @@ Dirty hands-on step by step instructions to run EKS:
         aws iam add-user-to-group --group-name $GROUP_NAME --user-name $user
         TMP_PASS=$(pwgen -Bcnsy 14 1)
         aws iam create-login-profile --user-name $user --password "$TMP_PASS" --password-reset-required
+        aws iam create-access-key --user-name $user
         echo "$user -> $TMP_PASS"
     done
     ```
