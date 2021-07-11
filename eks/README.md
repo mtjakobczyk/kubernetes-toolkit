@@ -1,5 +1,7 @@
 Dirty hands-on step by step instructions to run EKS:
 
+### Prepare DevOps users
+
 1. Create a new customer-managed **IAM Policy** that allows full access to EKS and ECR
     ```json
     {
@@ -84,3 +86,12 @@ Dirty hands-on step by step instructions to run EKS:
     ```bash
     aws iam get-account-password-policy
     ```
+#### Allow AWS Services access other services
+
+https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html
+
+1. Cre
+    ```bash
+    aws iam create-service-linked-role --aws-service-name eks.amazonaws.com --description "Our service-linked role for EKS"
+    ```
+
