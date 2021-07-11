@@ -40,7 +40,7 @@ Dirty hands-on step by step instructions to run EKS:
         aws iam attach-group-policy --group-name $GROUP_NAME --policy-arn $ARN
     done
     ```
-3. Create **IAM Users** and add them to the IAM Group
+3. Create **IAM Users** and add them to the IAM Group  
     You need to install the `pwgen` utility to run the commands below.
     ```bash
     GROUP_NAME=BemowoDevOpsSquad
