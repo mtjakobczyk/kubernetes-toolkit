@@ -43,13 +43,12 @@ Dirty hands-on step by step instructions to run EKS:
 3. Create **IAM Users** and add them to the IAM Group
     ```bash
     GROUP_NAME=BemowoDevOpsSquad
-    
-    USERS=('devops1', 'devops2')
+    USERS=('devops1' 'devops2')
     for user in "${USERS[@]}";
     do
         aws iam create-user --user-name $user
         aws iam add-user-to-group --group-name $GROUP_NAME --user-name $user
-        TMP_PASS=$(pwgen -cnBys 15 1)
+        TMP_PASS=$(pwgen -Bcns 18 1)
         aws iam aws iam create-login-profile --user-name $user --password "$TMP_PASS" --password-reset-required  
     done
     ```
