@@ -53,3 +53,7 @@ Dirty hands-on step by step instructions to run EKS:
         echo "$user -> $TMP_PASS"
     done
     ```
+    You may need to double check the current password policy for your account before you ask the team to change their passwords on the first login:
+    ```bash
+    aws iam get-account-password-policy
+    ```
