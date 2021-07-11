@@ -40,3 +40,11 @@ Dirty hands-on step by step instructions to run EKS:
         aws iam attach-group-policy --group-name $GROUP_NAME --policy-arn $ARN
     done
     ```
+3. Create **IAM Users** and add them to the IAM Group
+    ```bash
+    GROUP_NAME=BemowoDevOpsSquad
+    aws iam create-user --user-name devops1
+    aws iam add-user-to-group --group-name $GROUP_NAME --user-name devops1
+    aws iam create-user --user-name devops2 
+    aws iam add-user-to-group --group-name $GROUP_NAME --user-name devops2
+    ```
