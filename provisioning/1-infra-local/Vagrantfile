@@ -1,0 +1,34 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "ubuntu/focal64" # Ubuntu 20.04 LTS Focal Fossa
+    config.vm.box_check_update = true
+    config.vm.provider "virtualbox" do |vb|
+      vb.gui = false
+    end
+  
+    # Kubernetes Control Plane Node 1
+    config.vm.define "control1" do |c1|
+      c1.vm.hostname = "control-1"
+      c1.vm.network "private_network", ip: "192.168.57.11", name: "vboxnet1", hostname: true
+      c1.vm.provider "virtualbox" do |vb|
+        vb.name = "kube-control-1"
+        vb.cpus = 2
+        vb.memory = "4096"
+        vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
+      end
+      c1.vm.provision "shell", inline: "echo \"192.168.57.21 worker-1\" | sudo tee -a /etc/hosts"
+    end
+    
+    # Kubernetes Worker Node 1
+    config.vm.define "worker1" do |w1|
+      w1.vm.hostname = "worker-1"
+      w1.vm.network "private_network", ip: "192.168.57.21", name: "vboxnet1", hostname: true
+      w1.vm.provider "virtualbox" do |vb|
+        vb.name = "kube-worker-1"
+        vb.cpus = 1
+        vb.memory = "4096"
+        vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
+      end
+      w1.vm.provision "shell", inline: "echo \"192.168.57.11 control-1\" | sudo tee -a /etc/hosts"
+    end
+    
+  end
